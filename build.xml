@@ -17,11 +17,22 @@
     <target name="copy-services">
         <mkdir dir="${targetServices}"/>
         <echo>Copying src folders from each folder in ${basedir}/services to ${targetServices}</echo>
-        <copy todir="${targetServices}" overwrite="true" failonerror="false">
-            <fileset dir="services"/>
+        <copy todir="${targetServices}/src" overwrite="true" failonerror="false" includeEmptyDirs="false">
+            <fileset dir="services" >
+                <include name="**/*.java"/>
+            </fileset>
             <chainedmapper>
                 <cutdirsmapper dirs="1"/>
-                <globmapper from="src${file.separator}*" to="*"/>
+                <globmapper from="src${file.separator}*" to="*" />
+            </chainedmapper>
+        </copy>
+        <copy todir="${targetServices}/resources" overwrite="true" failonerror="false" includeEmptyDirs="false">
+            <fileset dir="services" >
+                <exclude name="**/*.java"/>
+            </fileset>
+            <chainedmapper>
+                <cutdirsmapper dirs="1"/>
+                <globmapper from="src${file.separator}*" to="*" />
             </chainedmapper>
         </copy>
     </target>
